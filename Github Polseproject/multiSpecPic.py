@@ -2,15 +2,16 @@
 """
 Comment til branch 01
 """
-import numpy as np
-import scipy.io
-from PIL import Image
+from numpy import arange
+from scipy.io import loadmat
+from PIL.Image import fromarray
+from os.path import dirname
 
 class multiSpecPic:
     def __init__(self, nData="01"):
         self.nData = nData
-        self.path = "C:/Users/sebas/Google Drev/Dokumenter/DTU/DTU Kurser/Matematisk Modellering/Øvelser/01 Pølsens Kvalitet/Modtaget/data/multispectral_day%s.mat" % nData
-        self.data = scipy.io.loadmat(self.path)["immulti"]
+        self.path = dirname(__file__) + "/data/multispectral_day%s.mat" % nData
+        self.data = loadmat(self.path)["immulti"]
 
     def getLayer(self, nLayer):
         """
@@ -22,13 +23,10 @@ class multiSpecPic:
     def getPixel(self,r,c,l):
         return self.data[r,c,l]
 
-    def getLayerPixel(self,r,c,l):
-        return self.data[r,c,l]
-
     def saveImgs(self):
-        for i in np.arange(19):
-            savepath = "Output/lag%s.jpg" % i
-            img = Image.fromarray(self.getLayer(i))
+        for i in arange(19):
+            savepath = dirname(__file__) + "/output/lag%s.jpg" % i
+            img = fromarray(self.getLayer(i))
             img.save(savepath)
 
 # MAIN #
