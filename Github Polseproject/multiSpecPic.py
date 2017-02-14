@@ -2,34 +2,35 @@
 """
 Comment til branch 01
 """
-from numpy import arange, shape
+from numpy import shape, array
 from scipy.io import loadmat
-from PIL.Image import fromarray
+from PIL.Image import fromarray, open
 from os.path import dirname
 
-class multiSpecPic:
-    def __init__(self, nData="01"):
-        self.nData = nData
-        self.path = dirname(__file__) + "/data/multispectral_day%s.mat" % nData
-        self.data = loadmat(self.path)["immulti"]
+class data:
+    def __init__(self, day="01"):
+        self.day = day
 
-    def getLayer(self, nLayer):
-        """
-        Returns specified layer as a 2d array of values between 0 and 255
-            nlayer       [int] indentifying number of layer to get.
-        """
-        return self.data[:,:,nLayer]
+    def spec(self):
+        spec_path = dirname(__file__) + "/data/multispectral_day%s.mat" % self.day
+        return loadmat(spec_path)["immulti"]
 
-    def getPixel(self,r,c,l):
-        return self.data[r,c,l]
-
-    def saveImgs(self):
-        for i in range(shape(self.data)[2]):
+    def save(self):
+        for i in range(shape(self.spec())[2]):
             savepath = dirname(__file__) + "/output/lag%s.jpg" % i
-            img = fromarray(self.getLayer(i))
+            img = fromarray(self.spec()[:,:,i])
             img.save(savepath)
+
+    def anno(self):
+        anno_path = dirname(__file__) + "/data/annotation_day%s.png" % self.day
+        return array(open(anno_path).convert('L'))
+
+#    def png:
+
 
 # MAIN #
 if __name__ == "__main__":
-    msInst = multiSpecPic("01")
-    msInst.saveImgs()
+    dataload = data("01")
+    print((dataload.anno()))
+    #.spec()[:,:,0])
+    dataload.save()
