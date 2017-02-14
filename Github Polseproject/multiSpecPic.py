@@ -41,5 +41,17 @@ class data:
 
 # MAIN #
 if __name__ == "__main__":
+<<<<<<< HEAD
+    msInst = multiSpecPic("01")
+    print(msInst.getLayer(2))
+    #msInst.saveImgs()
+=======
     dataload = data("01")
+<<<<<<< HEAD
     print(shape(dataload.spec()))
+=======
+    print((dataload.anno()))
+    #.spec()[:,:,0])
+    dataload.save()
+>>>>>>> origin/master
+>>>>>>> origin/master
