@@ -32,4 +32,5 @@ class multiSpecPic:
 # MAIN #
 if __name__ == "__main__":
     msInst = multiSpecPic("01")
-    msInst.saveImgs()
+    print(msInst.getLayer(2))
+    #msInst.saveImgs()
