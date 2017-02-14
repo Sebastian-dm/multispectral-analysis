@@ -10,6 +10,7 @@ Rød er uvidst
 ##########
 from dataLoad import data
 import numpy as np
+data = data("01")
 
 def annoMean(spec, anno, annoSpec):
     """
@@ -48,6 +49,6 @@ def threshold():
 
 
 if __name__ == "__main__":
-    data = data("01")
+
     print(annoMean(data.spec(),data.anno(),2))
     print(max(threshold()))
