@@ -1,44 +1,41 @@
 # -*- coding: utf-8 -*-
-
-"""
 """
 
+"""
+
+##########
 # Import #
+##########
+from multiSpecPic import data
 
 
+def annoMean(pic1, pic2):
+    """
+    Funktionen finder middelværdier for pixels i
 
+    input
+    --------------
+    pic1 [Array]:
+        multispectral picture as array of pixels
+    pic2 [Array]:
+        annotation picture as array of pixels
 
-"""
-Funktionen finder middelværdier for pixels i
+    output
+    ---------------
+    array of mean values one float per spectre
+    """
 
-input
---------------
-billede1:
-    
-billede2:
+    print(pic1)
+    print(pic2)
 
-"""
+    """
+    middenværdi = []
+    for i to m:
+        g = Data[Anno = (0,0,255))]
+        mu = mean(g[:,i])
 
-for i in col:
-    for j in row:
+    g [[1..19],[1..19]..m]
+    """
 
-mean(imgArr)
-
-Data
-Anno = np.array
-
-
-middenværdi = []
-for i to m:
-    g = Data[Anno = (0,0,255))]
-    mu = mean(g[:,i])
-
-g [[1..19],[1..19]..m]
-
-
-
-mean()
-
-
-
-a = data.anno()
+if __name__ == "__main__":
+    annoMean(data.spec(),data.anno())
