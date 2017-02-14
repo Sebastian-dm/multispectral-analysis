@@ -2,7 +2,7 @@
 """
 Comment til branch 01
 """
-from numpy import arange
+from numpy import arange, shape
 from scipy.io import loadmat
 from PIL.Image import fromarray
 from os.path import dirname
@@ -24,7 +24,7 @@ class multiSpecPic:
         return self.data[r,c,l]
 
     def saveImgs(self):
-        for i in arange(19):
+        for i in range(shape(self.data)[2]):
             savepath = dirname(__file__) + "/output/lag%s.jpg" % i
             img = fromarray(self.getLayer(i))
             img.save(savepath)
