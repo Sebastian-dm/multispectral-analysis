@@ -2,15 +2,13 @@
 """
 Forklaring
 """
-
 ##########
 # Import #
 ##########
 from dataLoad import data
 from thresholds import threshold
-from statistic import calc
-
-from numpy import extract, shape
+from statistics import calc
+from numpy import extract, shape, mean, asmatrix, array, sum, size
 
 ############
 # Dataload #
@@ -21,13 +19,12 @@ spec = data_01.specMasked()
 ###################
 # Tærskelsværdier #
 ###################
-threshold_01 = threshold(data_01.spec(),data_01.anno())
-
+threshold = threshold(data_01.spec(),data_01.anno())
 C1 = []
 C2 = []
-for i in range(3):#shape(spec)[2]):
+for i in range(shape(spec)[2]):
     m = spec[:,:,i]
-    t = threshold_01[i]
+    t = threshold[i]
     c1 = extract(m >= t, m)
     c2 = extract(m < t, m)
 
@@ -35,18 +32,45 @@ for i in range(3):#shape(spec)[2]):
     C2.append(c2)
 
 #############
-# Statestik #
+# Kovarians #
 #############
-### Samlede kovarians
 calcs = calc(C1,C2)
-cov_kød = calcs.cov_classes()[0]
-cov_fedt = calcs.cov_classes()[1]
+cov_1 = calcs.cov_classes()[0]
+cov_2 = calcs.cov_classes()[1]
 cov_sum = calcs.cov_sum()
-print(cov_kød,'\n')
-print(cov_fedt,'\n')
-print(cov_sum)
 
-### Diskriminant værdi
-#print(shape(data_01.spec()))
+######################
+# Diskriminant værdi #
+######################
+mu_1 = mean([mean(x) for x in C1])
+mu_2 = mean([mean(x) for x in C2])
 
-#Si =
+S = lambda x,mu: x.T*cov_sum.I*mu - 1/2*mu.T*cov_sum.I*mu
+
+x = data_01.spec()[214,214,:]
+S1 = S(x,mu_1)
+S2 = S(x,mu_2)
+C = S1 < S2
+print(C)
+if sum(C) > size(C)-sum(C):
+    print(1)
+else:
+    print(2)
+
+'''
+tau = []
+for i in range(shape(data_01.spec())[0]):
+    row = []
+    for u in range(shape(data_01.spec())[1]):
+        x = data_01.spec()[i,u,:]
+        S1 = S(x,mu_1)
+        S2 = S(x,mu_2)
+        C = S1 < S2
+        if sum(C) > size(C)-sum(C):
+            row.append(1)
+        else:
+            row.append(2)
+    tau.append(array(row))
+
+print(tau)
+'''
