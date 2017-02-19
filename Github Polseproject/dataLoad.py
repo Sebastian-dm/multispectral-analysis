@@ -79,9 +79,10 @@ class data:
             img.save(path)
 
         elif data == 'spec':
-            for i in range(shape(self.spec())[2]):
+            dataArr = self.specMasked()
+            for i in range(shape(dataArr)[2]):
                 path = dirname(__file__) + "/output/lag%s.jpg" % i
-                img = fromarray(self.spec()[:,:,i])
+                img = fromarray(dataArr[:,:,i])
                 img.save(path)
 
         elif data == 'specMasked':
