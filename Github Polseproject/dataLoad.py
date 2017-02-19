@@ -97,8 +97,5 @@ class data:
 if __name__ == "__main__":
     data = data("01")
     print(shape(data.spec()))
-    print((data.spec()))
-
-    #print(shape(data01.spec()))
-    #print((data01.anno()))
+#    print((data.spec()))
     data.save("specMasked")
