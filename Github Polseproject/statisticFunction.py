@@ -1,6 +1,6 @@
 from numpy import size, sum, array, shape
 from math import sqrt
-from multiSpecPic import multiSpecPic
+from dataLoad import data
 
 class analyzeLayer:
     def __init__(self,dArray):
@@ -10,8 +10,21 @@ class analyzeLayer:
     def __setMean(self,dArray):
         self.__meanVal = sum(dArray)/size(dArray)
     def mean(self):
-        """Returns the equivalent mean to the array
-                dArray       [array] data of type array"""
+        """
+        Returnere den ækvivalente middel til arrayet
+
+        input
+        --------------
+        dArray [array]
+            data of type array
+
+        ouput
+        --------------
+        mean [float]
+
+
+        """
+
         return self.__meanVal
 
     def __setVariance(self,dArray):
@@ -30,8 +43,8 @@ class analyzeLayer:
 
 #Main
 if __name__ == "__main__":
-    pic = multiSpecPic("01")
-    data = pic.data[:,:,0]
+    pic = data("01")
+    data = pic.spec()[:,:,0]
     print(shape(data))
     test = analyzeLayer(data)
     print(test.var(),test.mean())

@@ -38,9 +38,9 @@ def annoMean(spec, anno, annoSpec):
 
     return meanArray
 
-def threshold():
-    gMean = annoMean(data.spec(),data.anno(),1)
-    bMean = annoMean(data.spec(),data.anno(),2)
+def threshold(spec,anno):
+    gMean = annoMean(spec,anno,1)
+    bMean = annoMean(spec,anno,2)
     threshold = []
     for i in np.arange(len(gMean)):
         threshold.append((gMean[i]+bMean[i])/2)
@@ -49,5 +49,5 @@ def threshold():
 
 if __name__ == "__main__":
     data = data("01")
-    print(annoMean(data.spec(),data.anno(),2))
-    print(max(threshold()))
+#    print(annoMean(data.spec(),data.anno(),2))
+    print((threshold(data.spec(),data.anno())))
