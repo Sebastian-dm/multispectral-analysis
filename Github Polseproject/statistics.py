@@ -1,65 +1,91 @@
-# -*- coding: utf-8 -*-
-"""
-Indeholder statistikfunktioner til brug til klassificering af
-intensitets-pixelværdier i spektralbåndsbilleder.
-"""
-##########
-# IMPORT #
-##########
-import numpy as np
+#from numpy import size, sum, array, shape
+from math import sqrt
+from dataLoad import data
+from numpy import array, shape, zeros, size, append, empty, insert, extract, concatenate, vstack, column_stack, mean, cov, ma, asmatrix, matrix, around, var
 
-###############
-# DEFINITIONS #
-###############
 
-def mean():
-    mu = (0,0)
-    return mu
+class calc:
+    def __init__(self,dArray,aArray=[]):
+        self.__setMean(dArray)
+        self.__setVariance(dArray)
+        self.__setCovClass(dArray,aArray)
+        self.__setCovSum(dArray,aArray)
 
-def colCov():
-    """
-    Sigma(a,b)
-    Beregner den samlede kovarians "Collcected Covariance" for dimension a og b
+    ### MEAN ###
+    def __setMean(self,dArray):
+        try:
+            self.__meanVal = mean(dArray)
+        except:
+            self.__meanVal = None
+    def mean(self):
+        """
+        Den ækvivalente middel til arrayet
+        """
+        return self.__meanVal
 
-    input:
-    a [int]
-        dimension
-    b [int]
-        dimension
-    """
-    cov1 =
-    cov2 =
-    colCov = 
-    return colCov
+    ### VARIANCE ###
+    def __setVariance(self,dArray):
+        try:
+            self.__varianceVal = var(dArray)
+        except:
+            self.__varianceVal = None
+    def var(self):
+        """
+        Den ækvivalente varians til arrayet
+        """
+        return self.__varianceVal
 
-def discr(x):
-    """
-    Si(x) -> (S1,S2)
-    Beregner diskriminantværdien for hver klasse
-    på tværs af lag på pixelplaceringen x
-    retuneres som tuple med værdierne (S1,S2)
+    ### COVARIANCE ###
+    ### Class
+    def __setCovClass(self,dArray,aArray):
+        l = len(dArray)
+        ml_kød = max(map(lambda x: len(x), dArray))
+        ml_fedt = max(map(lambda x: len(x), aArray))
 
-    input:
-    x [array]
-        liste af intensitetsværdierne på alle 19 lag til pixelplacering.
-    """
+        norm_kød = empty((0,ml_kød))
+        norm_fedt = empty((0,ml_fedt))
 
-    classes = [1,2]
-    S = (0,0)
+        for i in range(l):
+            m_kød = zeros(ml_kød)
+            m_kød[0:len(dArray[i])] = dArray[i]
 
-    for i in classes:
-        S[i] = np.transpose(x)*np.linalg.inv(colCov())*mean()[i]-1/2*np.transpose(mean()[i])*np.linalg.inv(colCov())*mean()[i]
+            m_fedt = zeros(ml_fedt)
+            m_fedt[0:len(aArray[i])] = aArray[i]
 
-    return S
+            norm_kød = vstack([norm_kød, m_kød])
+            norm_fedt = vstack([norm_fedt, m_fedt])
 
-########
-# MAIN #
-########
+        cov_kød = asmatrix(cov(norm_kød))
+        cov_fedt = asmatrix(cov(norm_fedt))
+
+        self.__covClass = cov_kød,cov_fedt
+    def cov_classes(self):
+        """
+        De individuelle kovarianser for de to klasser
+        """
+        return self.__covClass
+
+
+    ### Sum
+    def __setCovSum(self,dArray,aArray):
+        cov_kød = self.__covClass[0]
+        cov_fedt = self.__covClass[1]
+
+        mk = sum(map(lambda x: len(x), dArray))
+        mf = sum(map(lambda x: len(x), aArray))
+        cov_m = asmatrix(((mk-1)*cov_kød + (mf-1)*cov_fedt)/(mk-1+mf-1))
+        self.__covSum = cov_m
+
+    def cov_sum(self):
+        """
+        Den samlede kovarians for to klasser
+        """
+        return self.__covSum
+
+#Main
 if __name__ == "__main__":
-    data = data("01")
-    print(shape(data.spec()))
-    print((data.spec()))
-
-    #print(shape(data01.spec()))
-    #print((data01.anno()))
-    data.save("specMasked")
+    pic = data("01")
+    data = pic.spec()[:,:,0]
+    print(shape(data))
+    test = calc(data)
+    print(test.var(),test.mean())
