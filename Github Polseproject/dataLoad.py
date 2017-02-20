@@ -2,7 +2,7 @@
 """
 Comment til branch 01
 """
-from numpy import shape, array, empty_like, ma, all, array_equal, equal, reshape, arange, zeros_like
+from numpy import shape, array, empty_like, ma, all, array_equal, equal, reshape, arange, zeros_like, size, sum
 from scipy.io import loadmat
 #from scipy.misc import imread
 from PIL.Image import fromarray, open
@@ -98,9 +98,13 @@ class data:
 # MAIN #
 if __name__ == "__main__":
     data = data("01")
-    print(shape(data.spec()))
-    print((data.spec()))
+    spec = data.spec()
+    specMasked = data.specMasked()
+
+    print(size(spec))
+    print(sum(specMasked == 1))
+
 
     #print(shape(data01.spec()))
     #print((data01.anno()))
-    data.save("specMasked")
+    #data.save("specMasked")
