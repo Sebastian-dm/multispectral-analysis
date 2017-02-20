@@ -39,6 +39,7 @@ class calc:
     ### Class
     def __setCovClass(self,dArray,aArray):
         l = len(dArray)
+        #Den maksimale længde af hhv fedt og kød observationer
         ml_kød = max(map(lambda x: len(x), dArray))
         ml_fedt = max(map(lambda x: len(x), aArray))
 
@@ -46,12 +47,15 @@ class calc:
         norm_fedt = empty((0,ml_fedt))
 
         for i in range(l):
+            #Forlænger kød array så de alle sammen er lige så lange som den længste
             m_kød = zeros(ml_kød)
             m_kød[0:len(dArray[i])] = dArray[i]
 
+            #Forlænger fedt array så de alle sammen er lige så lange som den længste
             m_fedt = zeros(ml_fedt)
             m_fedt[0:len(aArray[i])] = aArray[i]
 
+            #Appender hhv kød og fedt til en samlede matricer
             norm_kød = vstack([norm_kød, m_kød])
             norm_fedt = vstack([norm_fedt, m_fedt])
 
@@ -65,14 +69,15 @@ class calc:
         """
         return self.__covClass
 
-
     ### Sum
     def __setCovSum(self,dArray,aArray):
         cov_kød = self.__covClass[0]
         cov_fedt = self.__covClass[1]
 
+        #Antallet af observationer for hhv fedt og kød
         mk = sum(map(lambda x: len(x), dArray))
         mf = sum(map(lambda x: len(x), aArray))
+        #Den samlede kovarians
         cov_m = asmatrix(((mk-1)*cov_kød + (mf-1)*cov_fedt)/(mk-1+mf-1))
         self.__covSum = cov_m
 
