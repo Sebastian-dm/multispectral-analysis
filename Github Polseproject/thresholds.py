@@ -39,6 +39,7 @@ def annoMean(spec, anno, annoSpec):
     return meanArray
 
 def threshold(spec,anno):
+    print("Initial classification")
     gMean = annoMean(spec,anno,1)
     bMean = annoMean(spec,anno,2)
     threshold = []

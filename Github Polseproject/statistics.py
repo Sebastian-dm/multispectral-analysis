@@ -89,8 +89,8 @@ class calc:
 
 #Main
 if __name__ == "__main__":
-    pic = data("01")
-    data = pic.spec()[:,:,0]
-    print(shape(data))
-    test = calc(data)
+    data_01 = data("01")
+    spec = data_01.spec()[:,:,0]
+    print(shape(spec))
+    test = calc(spec)
     print(test.var(),test.mean())

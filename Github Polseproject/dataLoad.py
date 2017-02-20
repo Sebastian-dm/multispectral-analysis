@@ -37,6 +37,7 @@ class data:
 
     ### SPEKTRALBÅND ###
     def __setSpec(self):
+        print("loading spectral picture")
         path = dirname(__file__) + "/data/multispectral_day%s.mat" % self.__day
         self.__getSpec = loadmat(path)["immulti"]
     def spec(self):
@@ -48,6 +49,7 @@ class data:
     ### MASKED SPEKTRALBÅND ###
     def specMasked(self):
         #Create array of black values [0,0,0], False values [0,0,..,nLayers]
+        print("Masking Array")
         annoArr = self.anno()
         specArr = self.spec()
         blackArr = zeros_like(annoArr)
@@ -62,7 +64,7 @@ class data:
                     maskArr[i,j] = array([True] * nLayers)
 
         maskedArr = ma.masked_where(maskArr, specArr)
-        print("Masked percentage: ",int(maskCount/(514*514)*100))
+        print("Percentage: ",int(maskCount/(514*514)*100))
         return maskedArr
 
     ### SAVE ###
